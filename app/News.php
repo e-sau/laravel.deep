@@ -35,17 +35,28 @@ class News
         ],
     ];
 
-    public static function all()
+    /**
+     * @return array
+     */
+    public static function all(): array
     {
         return static::$news;
     }
 
-    public static function one(int $id)
+    /**
+     * @param int $id
+     * @return array|null
+     */
+    public static function one(int $id): ?array
     {
-        return static::$news[$id];
+        return static::$news[$id] ?? null;
     }
 
-    public static function getByCategoryId(int $category_id)
+    /**
+     * @param int $category_id
+     * @return array
+     */
+    public static function getByCategoryId(int $category_id): array
     {
         return array_filter(static::$news, function ($item) use ($category_id) {
             return $item['category_id'] === $category_id;

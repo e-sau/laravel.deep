@@ -17,22 +17,47 @@ class Category
         ],
     ];
 
-    public static function all()
+    /**
+     * @return array
+     */
+    public static function all(): array
     {
         return static::$category;
     }
 
-    public static function one($id)
+    /**
+     * @param $id
+     * @return array|null
+     */
+    public static function one($id): ?array
     {
-        return static::$category[$id];
+        return static::$category[$id] ?? null;
     }
 
-    public static function getIdBySlug($slug)
+    /**
+     * @param $slug
+     * @return int|null
+     */
+    public static function getIdBySlug($slug): ?int
     {
         $category = array_filter(static::$category, function ($item) use ($slug) {
             return $item['slug'] === $slug;
         });
 
-        return key($category) ?? -1;
+        return key($category);
+    }
+
+    public static function getSlugById(int $id): ?string
+    {
+        return static::$category[$id]['slug'] ?? null;
+    }
+
+    public static function getTitleBySlug(string $slug): ?string
+    {
+        foreach (static::$category as $item) {
+            if ($item['slug'] === $slug) return $item['title'];
+        }
+
+        return null;
     }
 }
