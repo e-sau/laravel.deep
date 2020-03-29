@@ -17,6 +17,10 @@
         margin: 0;
     }
 
+    .container {
+        padding: 0 15px;
+    }
+
     .flex-center {
         align-items: center;
         display: flex;
@@ -54,35 +58,48 @@
     }
 
     .news {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: 1fr;
+        grid-column-gap: 15px;
+    }
+
+    .news__item {
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        justify-content: center;
     }
 
     .article {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        max-width: 500px;
+    }
+
+    .article__preview {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         margin-bottom: 20px;
         box-sizing: border-box;
-        width: 320px;
         min-height: 170px;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 3px;
-        box-shadow: 2px 2px 3px #9f9f9f;
+        text-decoration: none;
         cursor: pointer;
         transition: all .3s ease-in-out;
     }
 
-    .article:hover {
-        transform: translate(2px, -2px);
-        box-shadow: 3px 3px 6px #9f9f9f;
+    .article__preview:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 10px rgba(121, 85, 72, .35);
     }
 
     .article__title {
         margin-bottom: 10px;
         font-size: 18px;
+        color: #000;
     }
 
     .article__content {
@@ -95,23 +112,85 @@
         font-size: 10px;
         color: #9a6f1d;
     }
+
+    .category {
+        padding: 0;
+        list-style-type: none;
+    }
+
+    .category__item {
+
+    }
+
+    .category__link {
+        position: relative;
+        box-sizing: border-box;
+        width: 220px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1b4b72;
+        text-decoration: none;
+        background: #fff;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        transition: background-color .3s;
+    }
+
+    .category__link:hover, .category__link:hover:after {
+        background: #e4eafa;
+    }
+
+    .category__link:after {
+        content: "";
+        position: absolute;
+        box-sizing: border-box;
+        right: -14px;
+        top: 5px;
+        width: 28px;
+        height: 28px;
+        background: #fff;
+        border-top: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        transform: rotate(45deg);
+        transition: background-color .3s;
+    }
+
+    .btn {
+        box-sizing: border-box;
+        width: 200px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #fff;
+        background: #6892ff;
+        border: 1px solid #6892ff;
+        border-radius: 20px;
+        transition: all .4s;
+    }
+
+    .btn:hover {
+        color: #6892ff;
+        background: #fff;
+    }
 </style>
 <body>
+<div class="flex-center links m-t-lg">
+    @section('menu')
+        <a href="<?=route('home')?>">@lang('menu.home')</a>
+        <a href="<?=route('about')?>">@lang('menu.about')</a>
+        <a href="<?=route('category.index')?>">@lang('menu.news')</a>
+    @show
+</div>
 <div class="container m-t-lg">
     @yield('content')
-</div>
-<div class="flex-center links m-t-lg">
-    <?php $routesLang = [
-        'home' => 'Главная',
-        'about' => 'О сайте',
-        'news' => 'Новости'
-    ]; ?>
-
-    @foreach ($routesLang as $name => $title)
-        @if (Route::currentRouteName() !== $name)
-            <a href="{{ route($name) }}">{{ $routesLang[$name] }}</a>
-        @endif
-    @endforeach
 </div>
 </body>
 </html>
