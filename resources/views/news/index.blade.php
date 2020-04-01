@@ -15,7 +15,7 @@
                 @forelse ($news as $id => $article)
                     <div class="card card-body news__item">
                         <div>
-                            <span class="badge badge-dark mb-3">{{ $article['date'] }}</span>
+                            <span class="badge badge-dark mb-3">{{ date('d.m.Y', strtotime($article['date'])) }}</span>
                             <h5 class="card-title">{{ $article['title'] }}</h5>
                         </div>
                         <a href="{{ route('news.show', [

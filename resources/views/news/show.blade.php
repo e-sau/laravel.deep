@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <span class="badge badge-secondary">{{ $news['date'] }}</span>
+                <span class="badge badge-secondary">{{ date('d.m.Y', strtotime($news['date'])) }}</span>
                 <h5 class="card-header">{{ $news['title'] }}</h5>
                 <div class="card-body">
                     <p class="card-text">{{ $news['content'] }}</p>

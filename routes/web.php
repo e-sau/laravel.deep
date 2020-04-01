@@ -34,7 +34,9 @@ Route::group([
     });
 });
 
-
+Route::get('/auth', 'User\UserController@index')->name('auth.index');
+Route::post('/auth/login', 'User\UserController@login')->name('auth.login');
+Route::get('/auth/logout', 'User\UserController@logout')->name('auth.logout');
 
 Route::get('/about', function () {
     return view('about');

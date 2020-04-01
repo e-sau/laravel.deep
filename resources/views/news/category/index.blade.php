@@ -23,9 +23,11 @@
             </div>
         </div>
     </div>
-    <div class="row mt-3">
-        <div class="col">
-            <a class="btn btn-primary" href="{{ route('news.create') }}">Добавить новость</a>
+    @if(session('auth'))
+        <div class="row mt-3">
+            <div class="col">
+                <a class="btn btn-primary" href="{{ route('news.create') }}">Добавить новость</a>
+            </div>
         </div>
-    </div>
+    @endif
 @endsection

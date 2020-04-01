@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\News;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\News;
 use Illuminate\Http\Request;
@@ -30,7 +31,29 @@ class NewsController extends Controller
 
     public function create()
     {
-        return view('news.create');
+        return view(
+            'news.create',
+            [
+                'categories' => Category::all(),
+            ]
+        );
+    }
+
+    public function store(Request $request)
+    {
+        $data = [
+            'title' => $request->post('title'),
+            'content' => $request->post('content'),
+            'category_id' => (int) $request->post('category_id'),
+            'date' => $request->post('date')
+        ];
+
+        $route = 'news.category.index';
+        if (!News::addDataToDb($data)) {
+            $route = 'news.create';
+        }
+
+        return redirect()->route($route);
     }
 
     public function showByFilter($filter)
