@@ -15,6 +15,13 @@
                     || Route::currentRouteName() == 'news.show'){{ "active" }}@endif"
                    href="{{ route('news.category.index') }}">@lang('menu.news')</a>
             </li>
+            @if(session('auth'))
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('auth.json') }}">
+                        @lang('menu.json')
+                    </a>
+                </li>
+            @endif
             <li class="nav-item">
                 <a class="nav-link
                     @if(Route::currentRouteName() == 'auth.index'){{ "active" }}@endif"

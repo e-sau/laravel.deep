@@ -2,23 +2,35 @@
 
 namespace App;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Facades\File;
+
 class News
 {
-    public static function getDataFromDB(): array
+    private const STORAGE_PATH = __DIR__ . '/../storage/news.json';
+
+    public static function getDataFromDB()
     {
-        $data = file_get_contents(__DIR__ . '/../database/news.json');
+        try {
+            $data = File::get(static::STORAGE_PATH);
+        } catch (FileNotFoundException $e) {
+            return [];
+        }
 
         return json_decode($data, true);
     }
 
-    public static function addDataToDb(array $data): bool
+    /**
+     * @param array $data
+     * @return int|bool
+     */
+    public static function addDataToDb(array $data)
     {
         $dbData = static::getDataFromDB();
         $dbData[] = $data;
 
-        return file_put_contents(
-            __DIR__ . '/../database/news.json',
-            json_encode($dbData, JSON_PRETTY_PRINT)
+        return File::put(static::STORAGE_PATH,
+            json_encode($dbData, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
         );
     }
 

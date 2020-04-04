@@ -23,8 +23,7 @@ Route::group([
 ], function () {
     Route::get('/news', 'NewsController@index')->name('index');
     Route::get('/news/category/{category}/{id}', 'NewsController@show')->name('show');
-    Route::get('/news/create', 'NewsController@create')->name('create');
-    Route::post('/news', 'NewsController@store')->name('store');
+    Route::match(['get', 'post'], '/news/create', 'NewsController@create')->name('create');
 
     Route::group([
        'as' => 'category.'
@@ -34,9 +33,15 @@ Route::group([
     });
 });
 
-Route::get('/auth', 'User\UserController@index')->name('auth.index');
-Route::post('/auth/login', 'User\UserController@login')->name('auth.login');
-Route::get('/auth/logout', 'User\UserController@logout')->name('auth.logout');
+Route::group([
+    'namespace' => 'User',
+    'as' => 'auth.'
+], function () {
+    Route::get('/auth', 'UserController@index')->name('index');
+    Route::post('/auth/login', 'UserController@login')->name('login');
+    Route::get('/auth/logout', 'UserController@logout')->name('logout');
+    Route::get('/auth/json', 'UserController@json')->name('json');
+});
 
 Route::get('/about', function () {
     return view('about');
