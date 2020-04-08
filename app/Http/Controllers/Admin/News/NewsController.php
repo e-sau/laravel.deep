@@ -14,7 +14,7 @@ class NewsController extends Controller
         if ($request->isMethod('POST')) {
             $request->flash();
 
-            return $this->store($request);
+            return $this->store($request->all());
         }
 
         return view(
@@ -40,5 +40,13 @@ class NewsController extends Controller
         }
 
         return redirect()->route($route);
+    }
+
+    public function json()
+    {
+        return response()
+            ->json(News::all())
+            ->header('Content-Disposition', 'attachment; filename = "news.json"')
+            ->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 }
