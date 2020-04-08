@@ -9,7 +9,7 @@
                    href="{{ route('home') }}">@lang('menu.home')</a>
                 <a class="dropdown-item  @if(Route::currentRouteName() == 'about'){{ "active" }}@endif"
                    href="{{ route('about') }}">@lang('menu.about')</a>
-                <a class="dropdown-item
+                <a class="dropdown-item 
                     @if(Route::currentRouteName() == 'news.category.index'
                     || Route::currentRouteName() == 'news.show'){{ "active" }}@endif"
                    href="{{ route('news.category.index') }}">@lang('menu.news')</a>
