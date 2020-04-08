@@ -2,13 +2,17 @@
 
 namespace App;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\File;
 
 class User
 {
 //    use Notifiable;
+    private const STORAGE_PATH = __DIR__ . '/../storage/user.json';
+
 
     /**
      * The attributes that are mass assignable.
@@ -37,21 +41,28 @@ class User
         'email_verified_at' => 'datetime',
     ];
 
-    public static function getDataFromDB(): array
+    public static function getDataFromDB()
     {
-        $data = file_get_contents(__DIR__ . '/../database/user.json');
+        try {
+            $data = File::get(static::STORAGE_PATH);
+        } catch (FileNotFoundException $e) {
+            return [];
+        }
 
         return json_decode($data, true);
     }
 
-    public static function addDataToDb(array $data): bool
+    /**
+     * @param array $data
+     * @return int|bool
+     */
+    public static function addDataToDb(array $data)
     {
         $dbData = static::getDataFromDB();
         $dbData[] = $data;
 
-        return file_put_contents(
-            __DIR__ . '/../database/user.json',
-            json_encode($dbData, JSON_PRETTY_PRINT)
+        return File::put(static::STORAGE_PATH,
+            json_encode($dbData, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
         );
     }
 
