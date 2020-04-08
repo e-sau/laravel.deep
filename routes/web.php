@@ -32,10 +32,8 @@ Route::group([
     });
 });
 
-Route::group([
-    'namespace' => 'Admin',
-    'as' => 'admin.'
-], function () {
+Route::middleware(\App\Http\Middleware\CheckAuth::class)->namespace('Admin')->as('admin.')
+    ->group(function () {
     Route::get('/admin', 'AdminController@index')->name('index');
 
     Route::group([
