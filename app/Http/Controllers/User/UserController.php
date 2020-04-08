@@ -31,6 +31,14 @@ class UserController extends Controller
     public function logout()
     {
         session(['auth' => false]);
-        return redirect()->route('home');
+        return redirect()->back();
+    }
+
+    public function json()
+    {
+        return response()
+            ->json(News::all())
+            ->header('Content-Disposition', 'attachment; filename = "news.json"')
+            ->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 }

@@ -29,8 +29,14 @@ class NewsController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        if ($request->isMethod('POST')) {
+            $request->flash();
+
+            return $this->store($request);
+        }
+
         return view(
             'news.create',
             [
@@ -39,7 +45,7 @@ class NewsController extends Controller
         );
     }
 
-    public function store(Request $request)
+    protected function store(Request $request)
     {
         $data = [
             'title' => $request->post('title'),
