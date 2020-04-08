@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <form method="POST" action="{{ route('admin.news.create') }}">
+    <form enctype="multipart/form-data" method="POST" action="{{ route('admin.news.create') }}">
         @csrf
         <div class="form-group">
             <label for="title">Заголовок</label>
@@ -29,9 +29,9 @@
         <div class="form-group">
             <label for="category_id">Категория</label>
             <select class="form-control" id="category_id" name="category_id">
-                @forelse ($categories as $id => $category)
-                    <option value="{{ $id }}"
-                    @if (old('category_id') == $id) selected @endif>{{ $category['title'] }}
+                @forelse ($categories as $category)
+                    <option value="{{ $category->id }}"
+                            @if (old('category_id') == $category->id) selected @endif>{{ $category->title }}
                     </option>
                 @empty
                     <option disabled>Нет категорий</option>
@@ -45,6 +45,11 @@
                    id="date"
                    name="date"
                    value="{{ old('date') }}">
+        </div>
+        <div class="form-group">
+            <div class="custom-file">
+                <input type="file" class="form-control-file" name="image">
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">Добавить</button>
     </form>

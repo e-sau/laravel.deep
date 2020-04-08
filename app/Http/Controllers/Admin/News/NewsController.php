@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Controllers\Controller;
 use App\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -13,6 +14,10 @@ class NewsController extends Controller
     {
         if ($request->isMethod('POST')) {
             $request->flash();
+
+            if ($request->file('image')) {
+                $a = $request;
+            }
 
             return $this->store($request->all());
         }
@@ -27,15 +32,22 @@ class NewsController extends Controller
 
     protected function store($news)
     {
+        if (!empty($news['image'])) {
+            $path = Storage::putFile('public/images', $news['image']);
+            $url = Storage::url($path);
+        }
+
         $data = [
             'title' => $news['title'],
             'content' => $news['content'],
             'category_id' => (int) $news['category_id'],
+            'image' => $url ?? null,
             'date' => $news['date']
         ];
 
         $route = 'news.category.index';
-        if (!News::addDataToDb($data)) {
+
+        if (!\DB::table('news')->insert($data)) {
             $route = 'admin.news.create';
         }
 
