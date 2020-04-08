@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\File;
 class User
 {
 //    use Notifiable;
-    private const STORAGE_PATH = __DIR__ . '/../storage/user.json';
+    private const DB_FILENAME = 'user.json';
 
 
     /**
@@ -44,7 +44,7 @@ class User
     public static function getDataFromDB()
     {
         try {
-            $data = File::get(static::STORAGE_PATH);
+            $data = File::get(storage_path() . DIRECTORY_SEPARATOR . static::DB_FILENAME);
         } catch (FileNotFoundException $e) {
             return [];
         }
@@ -61,7 +61,7 @@ class User
         $dbData = static::getDataFromDB();
         $dbData[] = $data;
 
-        return File::put(static::STORAGE_PATH,
+        return File::put(storage_path() . DIRECTORY_SEPARATOR . static::DB_FILENAME,
             json_encode($dbData, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
         );
     }

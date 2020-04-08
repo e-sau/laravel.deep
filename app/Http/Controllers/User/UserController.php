@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Category;
 use App\Http\Controllers\Controller;
-use App\News;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -32,13 +30,5 @@ class UserController extends Controller
     {
         session(['auth' => false]);
         return redirect()->back();
-    }
-
-    public function json()
-    {
-        return response()
-            ->json(News::all())
-            ->header('Content-Disposition', 'attachment; filename = "news.json"')
-            ->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 }
