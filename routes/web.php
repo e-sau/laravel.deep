@@ -23,13 +23,26 @@ Route::group([
 ], function () {
     Route::get('/news', 'NewsController@index')->name('index');
     Route::get('/news/category/{category}/{id}', 'NewsController@show')->name('show');
-    Route::match(['get', 'post'], '/news/create', 'NewsController@create')->name('create');
 
     Route::group([
        'as' => 'category.'
     ], function () {
         Route::get('/news/categories', 'CategoryController@index')->name('index');
         Route::get('/news/category/{category}', 'CategoryController@show')->name('show');
+    });
+});
+
+Route::group([
+    'namespace' => 'Admin',
+    'as' => 'admin.'
+], function () {
+    Route::get('/admin', 'AdminController@index')->name('index');
+
+    Route::group([
+        'namespace' => 'News',
+        'as' => 'news.'
+    ], function () {
+        Route::match(['get', 'post'], '/admin/news/create', 'NewsController@create')->name('create');
     });
 });
 

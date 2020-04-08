@@ -1,10 +1,3 @@
-@if(!session('auth'))
-    @php
-        header("Location: " . URL::to('/'), true, 302);
-        exit();
-    @endphp
-@endif
-
 @extends('./../layouts.app')
 
 @section('title')
@@ -12,11 +5,11 @@
 @endsection
 
 @section('menu')
-    @include('menu')
+    @include('admin.menu')
 @endsection
 
 @section('content')
-    <form method="POST" action="{{ route('news.create') }}">
+    <form method="POST" action="{{ route('admin.news.create') }}">
         @csrf
         <div class="form-group">
             <label for="title">Заголовок</label>

@@ -13,6 +13,7 @@
                     @if(Route::currentRouteName() == 'news.category.index'
                     || Route::currentRouteName() == 'news.show'){{ "active" }}@endif"
                    href="{{ route('news.category.index') }}">@lang('menu.news')</a>
+                <a class="dropdown-item" href="{{ route('admin.index') }}">@lang('menu.admin')</a>
             </div>
         </div>
         <div class="left-menu">
