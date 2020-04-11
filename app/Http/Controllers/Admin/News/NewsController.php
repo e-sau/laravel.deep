@@ -15,10 +15,6 @@ class NewsController extends Controller
         if ($request->isMethod('POST')) {
             $request->flash();
 
-            if ($request->file('image')) {
-                $a = $request;
-            }
-
             return $this->store($request->all());
         }
 
