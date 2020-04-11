@@ -10,9 +10,7 @@
 
 @section('content')
     <form enctype="multipart/form-data" method="POST"
-          action="{{ $news->id
-            ? route('admin.news.update', $news)
-            : route('admin.news.create')}}">
+          action="{{ !empty($news) ? route('admin.news.update', $news) : route('admin.news.create')}}">
         @csrf
         <div class="form-group">
             <label for="title">Заголовок</label>
@@ -34,7 +32,8 @@
             <select class="form-control" id="category_id" name="category_id">
                 @forelse ($categories as $category)
                     <option value="{{ $category->id }}"
-                        @if ($news->category_id == $category->id || old('category_id') == $category->id)
+                        @if ((!empty($news) && $news->category_id == $category->id)
+                                || old('category_id') == $category->id)
                             selected
                         @endif>
                         {{ $category->title }}
@@ -55,13 +54,13 @@
         <div class="form-group">
             <div class="custom-file">
                 <input type="file" class="form-control-file" name="image">
-                @if ($news->image)
+                @if (!empty($news->image))
                     <a class="btn btn-link" href="{{ $news->image }}">Изображение</a>
                 @endif
             </div>
         </div>
         <button type="submit" class="btn btn-primary">
-            @if($news->id)
+            @if(!empty($news->id))
                 Изменить
             @else
                 Добавить

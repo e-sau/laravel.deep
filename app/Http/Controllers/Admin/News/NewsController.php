@@ -48,7 +48,7 @@ class NewsController extends Controller
             $news->image = $url;
         }
 
-        $route = 'news.category.index';
+        $route = 'admin.news.index';
 
         if (!$news->save()) {
             $route = 'admin.news.create';

@@ -36,4 +36,10 @@
             {{ $news->links() }}
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary mt-5"
+               href="{{ route('admin.news.create') }}">Добавить новость</a>
+        </div>
+    </div>
 @endsection
