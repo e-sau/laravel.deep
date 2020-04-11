@@ -20,7 +20,7 @@ class UserController extends Controller
         if ($user && $user['password'] === $request->post('password'))
         {
             session(['auth' => true]);
-            return redirect()->route('home');
+            return redirect()->route('admin.index');
         }
 
         return redirect()->route('auth.index');

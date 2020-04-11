@@ -32,10 +32,8 @@ Route::group([
     });
 });
 
-Route::group([
-    'namespace' => 'Admin',
-    'as' => 'admin.'
-], function () {
+Route::middleware(\App\Http\Middleware\CheckAuth::class)->namespace('Admin')->as('admin.')
+    ->group(function () {
     Route::get('/admin', 'AdminController@index')->name('index');
 
     Route::group([
@@ -43,6 +41,7 @@ Route::group([
         'as' => 'news.'
     ], function () {
         Route::match(['get', 'post'], '/admin/news/create', 'NewsController@create')->name('create');
+        Route::get('/admin/news/json', 'NewsController@json')->name('json');
     });
 });
 
@@ -53,7 +52,6 @@ Route::group([
     Route::get('/auth', 'UserController@index')->name('index');
     Route::post('/auth/login', 'UserController@login')->name('login');
     Route::get('/auth/logout', 'UserController@logout')->name('logout');
-    Route::get('/auth/json', 'UserController@json')->name('json');
 });
 
 Route::get('/about', function () {

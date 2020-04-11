@@ -4,25 +4,15 @@ namespace App;
 
 class Category
 {
-    public static $category = [
-        1 => [
-            'id' => 1,
-            'title' => 'Политика',
-            'slug' => 'politics',
-        ],
-        2 => [
-            'id' => 2,
-            'title' => 'Спорт',
-            'slug' => 'sport',
-        ],
-    ];
+
+    private static $table = 'category';
 
     /**
      * @return array
      */
     public static function all(): array
     {
-        return static::$category;
+        return \DB::table(static::$table)->get()->all();
     }
 
     /**
@@ -31,33 +21,51 @@ class Category
      */
     public static function one($id): ?array
     {
-        return static::$category[$id] ?? null;
+        return \DB::table(static::$table)->find($id);
     }
 
     /**
      * @param $slug
      * @return int|null
      */
-    public static function getIdBySlug($slug): ?int
+    public static function getIdBySlug($slug)
     {
-        $category = array_filter(static::$category, function ($item) use ($slug) {
-            return $item['slug'] === $slug;
-        });
+        $result = \DB::table(static::$table)
+            ->select(['id'])
+            ->where('slug', '=', $slug)
+            ->get()
+            ->first();
 
-        return key($category);
+        return $result ? $result->id : $result;
     }
 
-    public static function getSlugById(int $id): ?string
+    /**
+     * @param int $id
+     * @return string|null
+     */
+    public static function getSlugById(int $id)
     {
-        return static::$category[$id]['slug'] ?? null;
+        $result = \DB::table(static::$table)
+            ->select(['slug'])
+            ->where('id', '=', $id)
+            ->get()
+            ->first();
+
+        return $result ? $result->slug : $result;
     }
 
-    public static function getTitleBySlug(string $slug): ?string
+    /**
+     * @param string $slug
+     * @return string|null
+     */
+    public static function getTitleBySlug(string $slug)
     {
-        foreach (static::$category as $item) {
-            if ($item['slug'] === $slug) return $item['title'];
-        }
+        $result = \DB::table(static::$table)
+            ->select(['title'])
+            ->where('slug', '=', $slug)
+            ->get()
+            ->first();
 
-        return null;
+        return $result ? $result->title : $result;
     }
 }
