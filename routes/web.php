@@ -15,14 +15,11 @@ Route::get('/', function () {
     return view('greetings');
 })->name('home');
 
-Route::get('/news', 'News\CategoryController@index')->name('news.category.index');
-
 Route::group([
     'namespace' => 'News',
     'as' => 'news.'
 ], function () {
-    Route::get('/news', 'NewsController@index')->name('index');
-    Route::get('/news/category/{category}/{id}', 'NewsController@show')->name('show');
+    Route::get('/news/category/{category}/{news}', 'NewsController@show')->name('show');
 
     Route::group([
        'as' => 'category.'
@@ -40,7 +37,11 @@ Route::middleware(\App\Http\Middleware\CheckAuth::class)->namespace('Admin')->as
         'namespace' => 'News',
         'as' => 'news.'
     ], function () {
+        Route::get('/admin/news/', 'NewsController@index')->name('index');
         Route::match(['get', 'post'], '/admin/news/create', 'NewsController@create')->name('create');
+        Route::get('/admin/news/edit/{news}', 'NewsController@edit')->name('edit');
+        Route::post('/admin/news/update/{news}', 'NewsController@update')->name('update');
+        Route::get('/admin/news/destroy/{news}', 'NewsController@destroy')->name('destroy');
         Route::get('/admin/news/json', 'NewsController@json')->name('json');
     });
 });

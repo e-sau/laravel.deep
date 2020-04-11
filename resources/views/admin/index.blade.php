@@ -11,7 +11,8 @@
 @section('content')
     <div class="row mt-3">
         <div class="col">
-            <a class="btn btn-primary" href="{{ route('admin.news.create') }}">Добавить новость</a>
+            <p>Добро пожаловать в Админ-панель!</p>
+            <p>Используйте меню для перехода в нужный раздел.</p>
         </div>
     </div>
 @endsection

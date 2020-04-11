@@ -11,22 +11,22 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return view('news.category.index', ['categories' => Category::all()]);
+        return view(
+            'news.category.index',
+            [
+                'categories' => Category::query()->paginate(6),
+            ]
+        );
     }
 
-    public function show($slug)
+    public function show(Category $category)
     {
-        $id = Category::getIdBySlug($slug);
-
-        if ($id === null) {
-            return redirect()->route('news.index');
-        }
-
         return view(
             'news.index',
             [
-                'news' => News::getByCategoryId($id),
-                'slug' => $slug
+                'news' => News::query()
+                    ->where('category_id', $category->id)
+                    ->paginate(6),
             ]
         );
     }

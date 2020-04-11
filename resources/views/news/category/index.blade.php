@@ -14,13 +14,14 @@
             <div class="list-group">
                 @forelse ($categories as $category)
                     <a class="list-group-item list-group-item-action"
-                       href="{{ route('news.category.show', ['category' => $category->slug]) }}">
+                       href="{{ route('news.category.show', $category) }}">
                         {{ $category->title }}
                     </a>
                 @empty
                     <p class="fz-big">Нет категорий</p>
                 @endforelse
             </div>
+            {{ $categories->links() }}
         </div>
     </div>
 @endsection

@@ -1,11 +1,11 @@
 @extends('./../layouts.app')
 
 @section('title')
-    @parent | Новости категории "{{ $news->first()->category()->first()->title }}"
+    @parent | Новости
 @endsection
 
 @section('menu')
-    @include('menu')
+    @include('admin.menu')
 @endsection
 
 @section('content')
@@ -22,6 +22,12 @@
                             'category' => $article->category()->first()->slug,
                             'id' => $article->id
                         ]) }}" class="card-link">Подробнее...</a>
+                        <div class="d-flex mt-4">
+                            <a class="btn btn-outline-primary mr-1"
+                               href="{{ route('admin.news.edit', $article) }}">Изменить</a>
+                            <a class="btn btn-outline-danger"
+                               href="{{ route('admin.news.destroy', $article) }}">Удалить</a>
+                        </div>
                     </div>
                 @empty
                     <p>Пока нет новостей. Но они появятся ;-)</p>
