@@ -1,8 +1,8 @@
 @section('menu')
     <nav class="navbar navbar-dark bg-dark mb-5">
         <div class="dropdown">
-            <button class="navbar-toggler" id="dropdownMenuButton" type="button" data-toggle="dropdown">
-                <span class="navbar-toggler-icon"></span>
+            <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Меню
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item @if(Route::currentRouteName() === 'home'){{ "active" }}@endif"

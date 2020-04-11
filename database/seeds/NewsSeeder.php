@@ -24,7 +24,7 @@ class NewsSeeder extends Seeder
             $data[] = [
                 'title' => $generator->sentence(),
                 'content' => $generator->text(),
-                'category_id' => $generator->randomElement(array_column(\App\Category::all(), 'id')),
+                'category_id' => $generator->randomElement([1, 2]),
                 'image' => asset('storage/default.jpg'),
                 'date' => $generator->date(),
             ];
