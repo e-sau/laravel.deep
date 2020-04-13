@@ -7,6 +7,8 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item @if(Route::currentRouteName() === 'home'){{ "active" }}@endif"
                    href="{{ route('home') }}">@lang('menu.home')</a>
+                <a class="dropdown-item @if(Route::currentRouteName() === 'admin.news.create'){{ "active" }}@endif"
+                   href="{{ route('admin.news.index') }}">@lang('menu.news')</a>
                 <a class="dropdown-item" href="{{ route('admin.news.json') }}">@lang('menu.json')</a>
             </div>
         </div>
