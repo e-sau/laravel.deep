@@ -74,4 +74,20 @@ class User
 
         return null;
     }
+
+    public static function rules()
+    {
+        return [
+            'login' => 'required|min:3|max:100',
+            'password' => 'required'
+        ];
+    }
+
+    public static function attributeNames()
+    {
+        return [
+            'login' => 'Логин',
+            'password' => 'Пароль',
+        ];
+    }
 }
