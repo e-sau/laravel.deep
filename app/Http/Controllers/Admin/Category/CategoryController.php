@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin\Category;
 
 use App\Category;
 use App\Http\Controllers\Controller;
-use App\News;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
@@ -32,8 +34,8 @@ class CategoryController extends Controller
     /**
      * @param Request $request
      * @param Category $category
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @return RedirectResponse
+     * @throws ValidationException
      */
     public function update(Request $request, Category $category)
     {
@@ -43,16 +45,13 @@ class CategoryController extends Controller
     /**
      * @param Request $request
      * @param null $category
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @return RedirectResponse
+     * @throws ValidationException
      */
     public function store(Request $request, $category = null)
     {
-        $successMessage = 'Категория обновлена!';
-
         if (!($category instanceof Category)) {
             $category = new Category();
-            $successMessage = 'Категория добавлена!';
         }
 
         $data = $this->validate($request, Category::rules(), [], Category::attributeNames());
@@ -61,6 +60,7 @@ class CategoryController extends Controller
         $category->slug = \Str::slug($data['title']);
 
         if ($category->save()) {
+            $successMessage = $request->isMethod('POST') ? 'Категория добавлена!' : 'Категория обновлена!';
             return redirect()->route('admin.category.index')->with('success', $successMessage);
         }
 
@@ -70,8 +70,8 @@ class CategoryController extends Controller
 
     /**
      * @param Category $category
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * @return RedirectResponse
+     * @throws Exception
      */
     public function destroy(Category $category)
     {

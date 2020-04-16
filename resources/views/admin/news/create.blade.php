@@ -18,11 +18,11 @@
                    class="form-control @error('title') is-invalid @enderror"
                    id="title"
                    name="title"
-                   value="{{ $news->title ?? old('title') }}">
+                   value="{{ false === old('title', false) ? ($news->title ?? '') : old('title') }}">
             @error('title')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
             @enderror
         </div>
         <div class="form-group">
@@ -30,11 +30,11 @@
             <textarea class="form-control @error('content') is-invalid @enderror"
                       id="content"
                       rows="3"
-                      name="content">{{ $news->content ?? old('content') }}</textarea>
+                      name="content">{{ false === old('content', false) ? ($news->content ?? '') : old('content') }}</textarea>
             @error('content')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
             @enderror
         </div>
         <div class="form-group">
@@ -44,8 +44,8 @@
                     name="category_id">
                 @forelse ($categories as $category)
                     <option value="{{ $category->id }}"
-                        @if ((!empty($news) && $news->category_id == $category->id)
-                                || old('category_id') == $category->id)
+                            @if ((old('category_id') == $category->id ||
+                                    !empty($news) && $news->category_id == $category->id))
                             selected
                         @endif>
                         {{ $category->title }}
@@ -55,9 +55,9 @@
                 @endforelse
             </select>
             @error('category_id')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
             @enderror
         </div>
         <div class="form-group">
@@ -66,11 +66,11 @@
                    class="form-control @error('date') is-invalid @enderror"
                    id="date"
                    name="date"
-                   value="{{ $news->date ?? old('date') }}">
+                   value="{{ false === old('date', false) ? ($news->date ?? '') : old('date') }}">
             @error('date')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
             @enderror
         </div>
         <div class="form-group">
@@ -82,9 +82,9 @@
                     <a class="btn btn-link" href="{{ $news->image }}">Изображение</a>
                 @endif
                 @error('image')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
         </div>

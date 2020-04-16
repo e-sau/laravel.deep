@@ -29,8 +29,6 @@ Route::group([
     });
 });
 
-//Route::middleware(\App\Http\Middleware\CheckAuth::class)->namespace('Admin')->as('admin.')
-//    ->group(function () {
 Route::group([
     'namespace' => 'Admin',
     'as' => 'admin.'
@@ -39,14 +37,15 @@ Route::group([
 
     Route::group([
         'namespace' => 'News',
-        'as' => 'news.'
+        'as' => 'news.',
+        'prefix' => 'admin'
     ], function () {
-        Route::get('/admin/news/', 'NewsController@index')->name('index');
-        Route::match(['get', 'post'], '/admin/news/create', 'NewsController@create')->name('create');
-        Route::get('/admin/news/edit/{news}', 'NewsController@edit')->name('edit');
-        Route::post('/admin/news/update/{news}', 'NewsController@update')->name('update');
-        Route::get('/admin/news/destroy/{news}', 'NewsController@destroy')->name('destroy');
-        Route::get('/admin/news/json', 'NewsController@json')->name('json');
+        Route::get('/news/', 'NewsController@index')->name('index');
+        Route::match(['get', 'post'], '/news/create', 'NewsController@create')->name('create');
+        Route::get('/news/edit/{news}', 'NewsController@edit')->name('edit');
+        Route::post('/news/update/{news}', 'NewsController@update')->name('update');
+        Route::get('/news/destroy/{news}', 'NewsController@destroy')->name('destroy');
+        Route::get('/news/json', 'NewsController@json')->name('json');
     });
 
     Route::resource('admin/category', 'Category\CategoryController');

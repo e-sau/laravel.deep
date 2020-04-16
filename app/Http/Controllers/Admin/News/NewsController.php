@@ -5,8 +5,13 @@ namespace App\Http\Controllers\Admin\News;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\News;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class NewsController extends Controller
 {
@@ -20,10 +25,20 @@ class NewsController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @return Application|Factory|RedirectResponse|View
+     * @throws ValidationException
+     */
     public function create(Request $request)
     {
         if ($request->isMethod('POST')) {
-            return $this->store($request);
+            if ($this->store($request)) {
+                return redirect()->route('admin.news.index')->with('success', 'Новость добавлена!');
+            } else {
+                $request->flash();
+                return redirect()->route('admin.news.create');
+            }
         }
 
         return view(
@@ -36,17 +51,14 @@ class NewsController extends Controller
 
     /**
      * @param Request $request
-     * @param null|News $news
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @param null $news
+     * @return bool
+     * @throws ValidationException
      */
     protected function store(Request $request, $news = null)
     {
-        $successMessage = 'Новость обновлена!';
-
         if (!($news instanceof News)) {
             $news = new News();
-            $successMessage = 'Новость добавлена!';
         }
 
         $data = $this->validate($request, News::rules(), [], News::attributeNames());
@@ -60,12 +72,7 @@ class NewsController extends Controller
             $news->image = $url;
         }
 
-        if ($news->save()) {
-            return redirect()->route('admin.news.index')->with('success', $successMessage);
-        }
-
-        $request->flash();
-        return redirect()->route('admin.news.create');
+        return $news->save();
     }
 
     public function edit(News $news)
@@ -79,14 +86,25 @@ class NewsController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @param News $news
+     * @return RedirectResponse
+     * @throws ValidationException
+     */
     public function update(Request $request, News $news)
     {
-        return $this->store($request, $news);
+        if ($this->store($request, $news)) {
+            return redirect()->route('admin.news.index')->with('success', 'Новость обновлена!');
+        }
+
+        $request->flash();
+        return redirect()->route('admin.news.create');
     }
 
     /**
      * @param News $news
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      * @throws \Exception
      */
     public function destroy(News $news)
