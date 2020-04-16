@@ -61,9 +61,7 @@ class NewsController extends Controller
             $news = new News();
         }
 
-        $data = $this->validate($request, News::rules(), [], News::attributeNames());
-
-        $news->fill($data);
+        $news->fill($request->all());
 
         if (!empty($request->file('image'))) {
             $path = Storage::putFile('public/images', $request->file('image'));

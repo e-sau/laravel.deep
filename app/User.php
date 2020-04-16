@@ -8,10 +8,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\File;
 
-class User
+class User extends Authenticatable
 {
-//    use Notifiable;
-    private const DB_FILENAME = 'user.json';
+    use Notifiable;
 
 
     /**
@@ -40,54 +39,4 @@ class User
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public static function getDataFromDB()
-    {
-        try {
-            $data = File::get(storage_path() . DIRECTORY_SEPARATOR . static::DB_FILENAME);
-        } catch (FileNotFoundException $e) {
-            return [];
-        }
-
-        return json_decode($data, true);
-    }
-
-    /**
-     * @param array $data
-     * @return int|bool
-     */
-    public static function addDataToDb(array $data)
-    {
-        $dbData = static::getDataFromDB();
-        $dbData[] = $data;
-
-        return File::put(storage_path() . DIRECTORY_SEPARATOR . static::DB_FILENAME,
-            json_encode($dbData, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
-        );
-    }
-
-    public static function getUserByLogin($login): ?array
-    {
-        foreach (static::getDataFromDB() as $user) {
-            if ($user['login'] === $login) return $user;
-        }
-
-        return null;
-    }
-
-    public static function rules()
-    {
-        return [
-            'login' => 'required|min:3|max:100',
-            'password' => 'required'
-        ];
-    }
-
-    public static function attributeNames()
-    {
-        return [
-            'login' => 'Логин',
-            'password' => 'Пароль',
-        ];
-    }
 }

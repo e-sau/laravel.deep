@@ -20,7 +20,7 @@ class News extends Model
         $categoryTable = (new Category())->getTable();
 
         return [
-            'title' => 'required|min:10|max:100',
+            'title' => 'required|min:5|max:100',
             'content' => 'required|min:10',
             'date' => 'required|date',
             'image' => 'mimes:jpeg,png|max:2000',
