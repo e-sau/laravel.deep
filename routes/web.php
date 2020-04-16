@@ -29,8 +29,12 @@ Route::group([
     });
 });
 
-Route::middleware(\App\Http\Middleware\CheckAuth::class)->namespace('Admin')->as('admin.')
-    ->group(function () {
+//Route::middleware(\App\Http\Middleware\CheckAuth::class)->namespace('Admin')->as('admin.')
+//    ->group(function () {
+Route::group([
+    'namespace' => 'Admin',
+    'as' => 'admin.'
+], function () {
     Route::get('/admin', 'AdminController@index')->name('index');
 
     Route::group([
@@ -44,6 +48,8 @@ Route::middleware(\App\Http\Middleware\CheckAuth::class)->namespace('Admin')->as
         Route::get('/admin/news/destroy/{news}', 'NewsController@destroy')->name('destroy');
         Route::get('/admin/news/json', 'NewsController@json')->name('json');
     });
+
+    Route::resource('admin/category', 'Category\CategoryController');
 });
 
 Route::group([

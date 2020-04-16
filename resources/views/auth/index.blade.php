@@ -13,11 +13,28 @@
         @csrf
         <div class="form-group">
             <label for="login">Логин</label>
-            <input type="text" class="form-control" id="login" name="login">
+            <input type="text"
+                   class="form-control @error('login') is-invalid @enderror"
+                   id="login"
+                   name="login"
+                   value="{{ old('login') }}">
+            @error('login')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
         <div class="form-group">
             <label for="password">Пароль</label>
-            <input type="password" class="form-control" id="password" name="password">
+            <input type="password"
+                   class="form-control @error('password') is-invalid @enderror"
+                   id="password"
+                   name="password">
+            @error('password')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
         <button type="submit" class="btn btn-primary">Войти</button>
     </form>

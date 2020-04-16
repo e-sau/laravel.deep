@@ -23,9 +23,7 @@ class NewsController extends Controller
     public function create(Request $request)
     {
         if ($request->isMethod('POST')) {
-            $request->flash();
-
-            return $this->store($request->all());
+            return $this->store($request);
         }
 
         return view(
@@ -36,25 +34,38 @@ class NewsController extends Controller
         );
     }
 
-    protected function store($data)
+    /**
+     * @param Request $request
+     * @param null|News $news
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function store(Request $request, $news = null)
     {
-        $news = new News();
+        $successMessage = 'Новость обновлена!';
+
+        if (!($news instanceof News)) {
+            $news = new News();
+            $successMessage = 'Новость добавлена!';
+        }
+
+        $data = $this->validate($request, News::rules(), [], News::attributeNames());
+
         $news->fill($data);
 
-        if (!empty($data['image'])) {
-            $path = Storage::putFile('public/images', $data['image']);
+        if (!empty($request->file('image'))) {
+            $path = Storage::putFile('public/images', $request->file('image'));
             $url = Storage::url($path);
 
             $news->image = $url;
         }
 
-        $route = 'admin.news.index';
-
-        if (!$news->save()) {
-            $route = 'admin.news.create';
+        if ($news->save()) {
+            return redirect()->route('admin.news.index')->with('success', $successMessage);
         }
 
-        return redirect()->route($route)->with('success', 'Новость сохранена!');
+        $request->flash();
+        return redirect()->route('admin.news.create');
     }
 
     public function edit(News $news)
@@ -70,24 +81,7 @@ class NewsController extends Controller
 
     public function update(Request $request, News $news)
     {
-        if ($request->isMethod('POST')) {
-            $request->flash();
-
-            $news->fill($request->all());
-
-            if (!empty($request->file('image'))) {
-                $path = Storage::putFile('public/images', $request->file('image'));
-                $url = Storage::url($path);
-
-                $news->image = $url;
-            }
-
-            if ($news->save()) {
-                return redirect()->route('admin.news.index')->with('success', 'Новость обновлена!');
-            }
-        }
-
-        return redirect()->back();
+        return $this->store($request, $news);
     }
 
     /**

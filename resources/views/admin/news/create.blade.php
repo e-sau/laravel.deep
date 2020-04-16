@@ -15,21 +15,33 @@
         <div class="form-group">
             <label for="title">Заголовок</label>
             <input type="text"
-                   class="form-control"
+                   class="form-control @error('title') is-invalid @enderror"
                    id="title"
                    name="title"
                    value="{{ $news->title ?? old('title') }}">
+            @error('title')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
         <div class="form-group">
             <label for="content">Текст</label>
-            <textarea class="form-control"
+            <textarea class="form-control @error('content') is-invalid @enderror"
                       id="content"
                       rows="3"
                       name="content">{{ $news->content ?? old('content') }}</textarea>
+            @error('content')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
         <div class="form-group">
             <label for="category_id">Категория</label>
-            <select class="form-control" id="category_id" name="category_id">
+            <select class="form-control @error('category_id') is-invalid @enderror"
+                    id="category_id"
+                    name="category_id">
                 @forelse ($categories as $category)
                     <option value="{{ $category->id }}"
                         @if ((!empty($news) && $news->category_id == $category->id)
@@ -42,21 +54,38 @@
                     <option disabled>Нет категорий</option>
                 @endforelse
             </select>
+            @error('category_id')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
         <div class="form-group">
             <label for="date">Дата</label>
             <input type="date"
-                   class="form-control"
+                   class="form-control @error('date') is-invalid @enderror"
                    id="date"
                    name="date"
                    value="{{ $news->date ?? old('date') }}">
+            @error('date')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
         <div class="form-group">
             <div class="custom-file">
-                <input type="file" class="form-control-file" name="image">
+                <input type="file"
+                       class="form-control-file @error('image') is-invalid @enderror"
+                       name="image">
                 @if (!empty($news->image))
                     <a class="btn btn-link" href="{{ $news->image }}">Изображение</a>
                 @endif
+                @error('image')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
         </div>
         <button type="submit" class="btn btn-primary">

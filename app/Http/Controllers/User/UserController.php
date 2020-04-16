@@ -13,14 +13,22 @@ class UserController extends Controller
         return view('auth.index');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function login(Request $request)
     {
-        $user = User::getUserByLogin($request->post('login'));
+        if ($request->isMethod('POST')) {
+            $data = $this->validate($request, User::rules(), [], User::attributeNames());
 
-        if ($user && $user['password'] === $request->post('password'))
-        {
-            session(['auth' => true]);
-            return redirect()->route('admin.index');
+            $user = User::getUserByLogin($data['login']);
+
+            if ($user && $user['password'] === $data['password']) {
+                session(['auth' => true]);
+                return redirect()->route('admin.index');
+            }
         }
 
         return redirect()->route('auth.index');
