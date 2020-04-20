@@ -11,6 +11,12 @@
 @section('content')
     <div class="row">
         <div class="col">
+            <a class="btn btn-primary mb-5"
+               href="{{ route('admin.news.create') }}">Добавить новость</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
             <div class="news">
                 @forelse ($news as $article)
                     <div class="card card-body news__item mb-3">
@@ -34,12 +40,6 @@
                 @endforelse
             </div>
             {{ $news->links() }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <a class="btn btn-primary mt-5"
-               href="{{ route('admin.news.create') }}">Добавить новость</a>
         </div>
     </div>
 @endsection

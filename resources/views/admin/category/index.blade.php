@@ -11,6 +11,12 @@
 @section('content')
     <div class="row">
         <div class="col">
+            <a class="btn btn-primary mb-5"
+               href="{{ route('admin.category.create') }}">Добавить категорию</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
             <div class="list-group">
                 @forelse ($categories as $category)
                     <div class="card card-body mb-2">
@@ -30,12 +36,6 @@
                 @endforelse
             </div>
             {{ $categories->links() }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <a class="btn btn-primary mt-5"
-               href="{{ route('admin.category.create') }}">Добавить категорию</a>
         </div>
     </div>
 @endsection

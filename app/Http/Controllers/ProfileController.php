@@ -39,19 +39,23 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function setAdmin(Request $request, User $user)
+    public function toggleAdmin(Request $request)
     {
-        $user->is_admin = 1;
+        $userId = ($request->body);
 
-        if ($user->save()) {
-            $request->session()->flash(
-                'success',
-                'Теперь пользователь ' . $user->name . ' имеет права администратора!'
-            );
-        } else {
-            $request->session()->flash('error', 'Ошибка обновления данных!');
+        $user = User::query()->find($userId);
+        $user->is_admin = !$user->is_admin;
+
+        if ($user && $user->save()) {
+            return response()->json([
+                'response' => 'OK',
+                'message' => 'Права пользователя ' . $user->name . ' изменены!',
+            ]);
         }
 
-        return redirect()->back();
+        return response()->json([
+            'response' => 'ERROR',
+            'message' => 'Ошибка обновления данных!'
+        ]);
     }
 }

@@ -73,6 +73,9 @@
                         </div>
                     </form>
                 </div>
+                <div class="card-footer text-muted">
+                    E-Mail Address: 'admin@admin.com', Password: '123'
+                </div>
             </div>
         </div>
     </div>

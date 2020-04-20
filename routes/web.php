@@ -66,8 +66,9 @@ Route::group([
     Route::match(['get', 'post'], '/update/', 'ProfileController@update')->name('update');
 });
 
-Route::post('/profile/setAdmin/{user}', 'ProfileController@setAdmin')
-    ->middleware(['auth', 'is_admin'])->name('profile.setAdmin');
+//Route::post('/profile/toggleAdmin/{user}', 'ProfileController@toggleAdmin')
+Route::post('/profile/toggleAdmin/', 'ProfileController@toggleAdmin')
+    ->middleware(['auth', 'is_admin'])->name('profile.toggleAdmin');
 
 Route::get('/about', function () {
     return view('about');
