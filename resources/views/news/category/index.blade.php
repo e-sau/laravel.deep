@@ -11,7 +11,7 @@
 @section('content')
     <div class="row">
         <div class="col">
-            <div class="list-group">
+            <div class="list-group mb-3">
                 @forelse ($categories as $category)
                     <a class="list-group-item list-group-item-action"
                        href="{{ route('news.category.show', $category) }}">
