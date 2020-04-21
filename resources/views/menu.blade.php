@@ -15,7 +15,7 @@
                    href="{{ route('news.category.index') }}">@lang('menu.news')</a>
             </li>
         </ul>
-        <div class="left-menu ml-auto">
+        <div class="left-menu d-flex ml-auto align-items-center">
             @guest
                 <a class="btn btn-outline-light my-2 my-sm-0"
                    href="{{ route('login') }}">{{ __('Логин') }}</a>
@@ -24,6 +24,11 @@
                        href="{{ route('register') }}">{{ __('Регистрация') }}</a>
                 @endif
             @else
+                @if(Auth::user()->avatar)
+                    <div class="avatar mr-3">
+                        <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" style="width: 32px;">
+                    </div>
+                @endif
                 <div class="dropdown">
                     <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ Auth::user()->name }}
