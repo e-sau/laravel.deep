@@ -17,7 +17,7 @@
         </ul>
         <div class="left-menu d-flex ml-auto align-items-center">
             @guest
-                <a class="btn btn-outline-light my-2 my-sm-0"
+                <a class="btn btn-outline-light my-2 my-sm-0 mr-1"
                    href="{{ route('login') }}">{{ __('Логин') }}</a>
                 @if (Route::has('register'))
                     <a class="btn btn-outline-light my-2 my-sm-0"

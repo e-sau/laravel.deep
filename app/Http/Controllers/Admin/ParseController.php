@@ -6,13 +6,13 @@ use App\Category;
 use App\Http\Controllers\Controller;
 use App\News;
 use Illuminate\Http\Request;
-use Orchestra\Parser\Xml\Facade;
+use Orchestra\Parser\Xml\Facade as XMLParser;
 
 class ParseController extends Controller
 {
     public function index()
     {
-        $xml = Facade::load('https://www.vedomosti.ru/newspaper/out/rss.xml');
+        $xml = XMLParser::load('https://www.vedomosti.ru/newspaper/out/rss.xml');
 
         $data = $xml->parse([
             'news' => ['uses' => 'channel.item[title,description,enclosure::url,pubDate,category]']
@@ -30,43 +30,22 @@ class ParseController extends Controller
 
     protected function getCategory($title)
     {
-        $category = Category::query()->where('title', $title)->first();
-
-        if (!$category) {
-            $newCategory = new Category();
-            $newCategory->fill([
-                'title' => $title,
-                'slug' => \Str::slug($title, '_')
-            ]);
-
-            if ($newCategory->save()) {
-                return $newCategory;
-            } else {
-                return null;
-            }
-
-        }
-
-        return $category;
+        return Category::firstOrCreate([
+            'title' => $title,
+            'slug' => \Str::slug($title, '_')
+        ]);
     }
 
     protected function fillNews($item, $category)
     {
-        if (empty($item['title'])) return false;
+        if (empty($item['title'])) return null;
 
-        $news = News::query()->where('title', $item['title'])->first();
-
-        if (!$news) {
-            $newNews = new News();
-            $newNews->fill([
-                'title' => $item['title'],
-                'content' => !empty($item['description']) ? $item['description'] : '',
-                'image' => !empty($item['enclosure::url']) ? $item['enclosure::url'] : '',
-                'date' => !empty($item['pubDate']) ? new \DateTime($item['pubDate']) : new \DateTime(),
-                'category_id' => $category
-            ]);
-
-            $newNews->save();
-        }
+        return News::firstOrCreate([
+            'title' => $item['title'],
+            'content' => !empty($item['description']) ? $item['description'] : '',
+            'image' => !empty($item['enclosure::url']) ? $item['enclosure::url'] : '',
+            'date' => !empty($item['pubDate']) ? date('Y-m-d', strtotime($item['pubDate'])) : date('Y-m-d'),
+            'category_id' => $category
+        ]);
     }
 }

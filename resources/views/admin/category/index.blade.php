@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 @empty
-                    <p class="fz-big">Нет категорий</p>
+                    <p>Нет категорий</p>
                 @endforelse
             </div>
             {{ $categories->links() }}

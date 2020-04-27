@@ -14,9 +14,9 @@ class AddColumnsSocAuthToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('soc_id', 20);
+            $table->string('soc_id', 20)->nullable();
             $table->enum('auth_type', ['site', 'vk', 'github'])->default('site');
-            $table->string('avatar', 255);
+            $table->string('avatar', 255)->nullable();
         });
     }
 

@@ -18,7 +18,7 @@
                         {{ $category->title }}
                     </a>
                 @empty
-                    <p class="fz-big">Нет категорий</p>
+                    <p class="fz-big">Нет новостей</p>
                 @endforelse
             </div>
             {{ $categories->links() }}
