@@ -56,6 +56,8 @@ Route::group([
     });
 
     Route::resource('admin/category', 'Category\CategoryController');
+
+    Route::get('/parse/news', 'ParseController@index')->name('parse');
 });
 
 Route::group([
@@ -66,7 +68,6 @@ Route::group([
     Route::match(['get', 'post'], '/update/', 'ProfileController@update')->name('update');
 });
 
-//Route::post('/profile/toggleAdmin/{user}', 'ProfileController@toggleAdmin')
 Route::post('/profile/toggleAdmin/', 'ProfileController@toggleAdmin')
     ->middleware(['auth', 'is_admin'])->name('profile.toggleAdmin');
 
@@ -75,3 +76,6 @@ Route::get('/about', function () {
 })->name('about');
 
 Auth::routes();
+
+Route::get('login/github', 'SocLoginController@requestGitHub')->name('requestGitHub');
+Route::get('login/github/callback', 'SocLoginController@responseGitHub')->name('responseGitHub');
