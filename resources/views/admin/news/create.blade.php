@@ -27,10 +27,9 @@
         </div>
         <div class="form-group">
             <label for="content">Текст</label>
-            <textarea class="form-control @error('content') is-invalid @enderror"
-                      id="content"
-                      rows="3"
-                      name="content">{{ false === old('content', false) ? ($news->content ?? '') : old('content') }}</textarea>
+            <ckeditor-component class="@error('content') is-invalid @enderror"
+                                value="{!! false === old('content', false) ? (htmlspecialchars($news->content) ?? '') : htmlspecialchars(old('content')) !!}"
+            ></ckeditor-component>
             @error('content')
             <div class="invalid-feedback">
                 {{ $message }}

@@ -58,6 +58,8 @@ Route::group([
     Route::resource('admin/category', 'Category\CategoryController');
 
     Route::get('/parse/news', 'ParseController@index')->name('parse');
+
+    Route::resource('admin/resources', 'ResourcesController');
 });
 
 Route::group([

@@ -28,6 +28,7 @@
                        href="{{ route('admin.news.index') }}">@lang('menu.news')</a>
                     @if(Auth::user()->is_admin)
                         <a class="dropdown-item" href="{{ route('admin.users') }}">@lang('Пользователи')</a>
+                        <a class="dropdown-item" href="{{ route('admin.resources.index') }}">@lang('RSS ресурсы')</a>
                         <a class="dropdown-item" href="{{ route('admin.parse') }}">@lang('Спарсить новости')</a>
                     @endif
                     <a class="dropdown-item" href="{{ route('admin.news.json') }}">@lang('menu.json')</a>

@@ -4,9 +4,11 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import CKEditor from 'ckeditor4-vue';
 require('./bootstrap');
 
 window.Vue = require('vue');
+Vue.use( CKEditor );
 
 /**
  * The following block of code may be used to automatically register your
@@ -21,6 +23,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('toggle-admin-button-component', require('./components/ToggleAdminButtonComponent.vue').default);
+Vue.component('ckeditor-component', require('./components/CKEditor.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
