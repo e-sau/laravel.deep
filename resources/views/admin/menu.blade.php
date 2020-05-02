@@ -9,6 +9,16 @@
                 <a class="nav-link"
                    href="{{ route('about') }}">@lang('menu.about')</a>
             </li>
+            <li class="nav-item @if(Route::currentRouteName() == 'news.category.index'
+                    || Route::currentRouteName() == 'news.show'){{ "active" }}@endif">
+                <a class="nav-link"
+                   href="{{ route('news.category.index') }}">@lang('menu.news')</a>
+            </li>
+            @if(Auth::user()->is_admin)
+                <li class="nav-item @if(0 === stripos(Route::currentRouteName(), 'admin.')){{ "active" }}@endif">
+                    <a class="nav-link" href="{{ route('admin.index') }}">@lang('menu.admin')</a>
+                </li>
+            @endif
         </ul>
         <div class="left-menu d-flex ml-auto align-items-center">
             @if(Auth::user()->avatar)

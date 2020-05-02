@@ -17,6 +17,7 @@ class XMLParserService
                 'news' => ['uses' => 'channel.item[title,description,enclosure::url,pubDate,category]']
             ]);
         } catch (\Exception $e) {
+            \Storage::disk('newsLogs')->append('log_news.txt', date('c') . ' Bad link: ' . $link);
             return false;
         }
 
@@ -27,7 +28,7 @@ class XMLParserService
             $this->fillNews($item, $category->getKey());
         }
 
-        \Storage::disk('newsLogs')->append('log_news.txt', date('c') . ' ' . $link);
+        \Storage::disk('newsLogs')->append('log_news.txt', date('c') . ' Parsed: ' . $link);
 
         return true;
     }

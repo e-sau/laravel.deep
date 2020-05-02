@@ -56,6 +56,7 @@ Route::group([
     });
 
     Route::resource('admin/category', 'Category\CategoryController');
+    Route::delete('/admin/category/{category}?force=true', 'Category\CategoryController@destroy')->name('category.destroy_force');
 
     Route::get('/parse/news', 'ParseController@index')->name('parse');
 

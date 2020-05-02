@@ -28,7 +28,7 @@
         <div class="form-group">
             <label for="content">Текст</label>
             <ckeditor-component class="@error('content') is-invalid @enderror"
-                                value="{!! false === old('content', false) ? (htmlspecialchars($news->content) ?? '') : htmlspecialchars(old('content')) !!}"
+                                value="{!! false === old('content', false) ? htmlspecialchars($news->content ?? '') : htmlspecialchars(old('content')) !!}"
             ></ckeditor-component>
             @error('content')
             <div class="invalid-feedback">

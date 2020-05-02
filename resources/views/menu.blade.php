@@ -14,6 +14,11 @@
                 <a class="nav-link"
                    href="{{ route('news.category.index') }}">@lang('menu.news')</a>
             </li>
+            @if(Auth::user() && Auth::user()->is_admin)
+                <li class="nav-item @if(0 === stripos(Route::currentRouteName(), 'admin.')){{ "active" }}@endif">
+                    <a class="nav-link" href="{{ route('admin.index') }}">@lang('menu.admin')</a>
+                </li>
+            @endif
         </ul>
         <div class="left-menu d-flex ml-auto align-items-center">
             @guest
@@ -34,9 +39,6 @@
                         {{ Auth::user()->name }}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                        @if(Auth::user()->is_admin)
-                            <a class="dropdown-item" href="{{ route('admin.index') }}">@lang('menu.admin')</a>
-                        @endif
                         <a class="dropdown-item" href="{{ route('profile.update') }}">@lang('Профиль')</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
