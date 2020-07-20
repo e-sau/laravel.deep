@@ -13,9 +13,9 @@
         <div class="col">
             <div class="card">
                 <span class="badge badge-secondary">{{ date('d.m.Y', strtotime($news->date)) }}</span>
-                <h5 class="card-header">{{ $news->title }}</h5>
+                <h5 class="card-header">{!! $news->title !!}</h5>
                 <div class="card-body">
-                    <p class="card-text">{{ $news->content }}</p>
+                    <p class="card-text">{!! $news->content !!}</p>
                 </div>
                 @if(!empty($news->image))
                 <img src="{{ $news->image }}" class="card-img-top img-fluid mt-3" alt="image">
