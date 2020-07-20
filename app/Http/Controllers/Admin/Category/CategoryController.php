@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Category;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\News;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -69,13 +70,16 @@ class CategoryController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param Category $category
      * @return RedirectResponse
      * @throws Exception
      */
-    public function destroy(Category $category)
+    public function destroy(Request $request, Category $category)
     {
-        if ($category->news()->count()) {
+        if (!empty($request->all()['force'])) {
+            $category->news()->delete();
+        } else if ($category->news()->count()) {
             return redirect()->back()->with('error', 'Нельзя удалить категорию с новостями!');
         }
 

@@ -22,7 +22,7 @@
                     <div class="card card-body news__item mb-3">
                         <div>
                             <span class="badge badge-dark mb-3">{{ date('d.m.Y', strtotime($article->date)) }}</span>
-                            <h5 class="card-title">{{ $article->title }}</h5>
+                            <h5 class="card-title">{!! $article->title !!}</h5>
                         </div>
                         <a href="{{ route('news.show', [
                             'category' => $article->category()->first()->slug,

@@ -24,10 +24,15 @@
                         <div class="d-flex mt-4">
                             <a class="btn btn-outline-primary mr-1"
                                href="{{ route('admin.category.edit', $category) }}">Изменить</a>
-                            <form action="{{ route('admin.category.destroy', $category) }}" method="POST">
+                            <form action="{{ route('admin.category.destroy', $category) }}" method="POST" class="mr-1">
                                 @method('DELETE')
                                 @csrf
                                 <button class="btn btn-outline-danger" type="submit">Удалить</button>
+                            </form>
+                            <form action="{{ route('admin.category.destroy_force', $category) }}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                                <button class="btn btn-outline-danger" type="submit">Удалить с новостями</button>
                             </form>
                         </div>
                     </div>
